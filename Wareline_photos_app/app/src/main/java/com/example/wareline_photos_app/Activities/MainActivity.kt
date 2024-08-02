@@ -51,9 +51,17 @@ class MainActivity : AppCompatActivity() {
                 val photosArray = response.getJSONArray("photos")
                 val photoListType = object : TypeToken<List<photo_data>>() {}.type
                 val photos: List<photo_data> = gson.fromJson(photosArray.toString(), photoListType)
-                Log.i("Photos_URL",photos[0].src.original)
-                val RcvAdapter = rcv_Adapter(this,photos.removeDuplicatesById())
-                rv.adapter= RcvAdapter
+                val RcvAdapter : rcv_Adapter
+                if (photos.isNotEmpty()){
+                    RcvAdapter = rcv_Adapter(this,photos.removeDuplicatesById())
+                    rv.adapter= RcvAdapter
+                }
+                else{
+                    //RcvAdapter = rcv_Adapter(this,photos.removeDuplicatesById())
+                    Toast.makeText(this,"No Image found",Toast.LENGTH_SHORT).show()
+                }
+
+
 
             },
             Response.ErrorListener { error ->
